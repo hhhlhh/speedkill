@@ -158,7 +158,7 @@ public class ProductServiceImpl implements ProductService {
         killProduct.setState(KillStatus.SUCCESS.getCode());
         //保存秒杀记录详细信息
 //        ayUserKillProductService.save(killProduct);
-        ayproductKillProducer.sendMessage(destination,killProduct);
+//        ayproductKillProducer.sendMessage(destination,killProduct);
         //商品秒杀成功后，更新缓存中商品库存数量
         redisTemplate.opsForHash().put(KILL_PRODUCT_LIST, killProduct.getProductId(), ayProduct);
         return ayProduct;
