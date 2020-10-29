@@ -2,6 +2,8 @@ package com.example.speedkill.controller;
 
 import com.example.speedkill.model.AyProduct;
 import com.example.speedkill.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +20,7 @@ public class ProductController {
 
     @Resource
     private ProductService productService;
-
+    Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 查询所有的商品
      * @param model
@@ -57,7 +59,9 @@ public class ProductController {
         AyProduct ayProduct = productService.killProduct(productId, userId);
         if(null != ayProduct){
             return "success";
+
         }
+        logger.info("kill id"+productId+userId);
         return "fail";
     }
 }
