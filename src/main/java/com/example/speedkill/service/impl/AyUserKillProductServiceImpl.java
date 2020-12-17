@@ -11,8 +11,9 @@ import javax.annotation.Resource;
 public class AyUserKillProductServiceImpl implements AyUserKillProductService {
     @Resource
     private AyUserKillProductRepository ayUserKillProductRepository;
+
     @Override
-    public AyUserKillProduct save(AyUserKillProduct killProduct){
+    public AyUserKillProduct save(AyUserKillProduct killProduct) {
         return ayUserKillProductRepository.save(killProduct);
     }
 }

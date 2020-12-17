@@ -1,7 +1,6 @@
 package com.example.speedkill.model;
 
 import lombok.Data;
-import sun.util.calendar.BaseCalendar;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,7 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
-@Table(name= "ay_product")
+@Table(name = "ay_product")
 public class AyProduct implements Serializable {
     @Id
     private Integer id;

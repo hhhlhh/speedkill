@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ProductService {
     List<AyProduct> findAll();
+
     Collection<AyProduct> findAllCache();
+
     AyProduct killProduct(Integer productId, Integer userId);
 }

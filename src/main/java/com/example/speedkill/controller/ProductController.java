@@ -21,13 +21,15 @@ public class ProductController {
     @Resource
     private ProductService productService;
     Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 查询所有的商品
+     *
      * @param model
      * @return
      */
     @RequestMapping("/all")
-    public String findAll(Model model){
+    public String findAll(Model model) {
         List<AyProduct> products = productService.findAll();
         model.addAttribute("products", products);
         return "product_list";
@@ -35,11 +37,12 @@ public class ProductController {
 
     /**
      * 查询所有的商品（缓存）
+     *
      * @param model
      * @return
      */
     @RequestMapping("/all/cache")
-    public String findAllCache(Model model){
+    public String findAllCache(Model model) {
         Collection<AyProduct> products = productService.findAllCache();
         model.addAttribute("products", products);
         return "product_list";
@@ -47,21 +50,22 @@ public class ProductController {
 
     /**
      * 秒杀商品
+     *
      * @param model
      * @param productId 商品id
-     * @param userId  用户id
+     * @param userId    用户id
      * @return
      */
     @RequestMapping("/{id}/kill")
     public String killProduct(Model model,
                               @PathVariable("id") Integer productId,
-                              @RequestParam("userId") Integer userId){
+                              @RequestParam("userId") Integer userId) {
         AyProduct ayProduct = productService.killProduct(productId, userId);
-        if(null != ayProduct){
+        if (null != ayProduct) {
             return "success";
 
         }
-        logger.info("kill id"+productId+userId);
+        logger.info("kill id" + productId + userId);
         return "fail";
     }
 }

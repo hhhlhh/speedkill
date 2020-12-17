@@ -12,13 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.jms.Destination;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -94,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
 
             Collection<AyProduct> ayProducts = null;
             //如果缓存中查询不到商品数据
-            if(CollectionUtils.isEmpty(productMap)){
+            if (CollectionUtils.isEmpty(productMap)) {
                 //从数据库中查询商品数据
                 ayProducts = productRepository.findAll();
                 //将商品list转换为商品map
@@ -104,7 +102,7 @@ public class ProductServiceImpl implements ProductService {
                 redisTemplate.opsForHash().putAll(KILL_PRODUCT_LIST, productMap);
                 //设置缓存数据的过期时间，这里设置10s，具体时间需要结合业务需求而定
                 //如果商品数据变化少，过期时间可以设置长一点；反之，过期时间可以设置短一点
-                redisTemplate.expire(KILL_PRODUCT_LIST,300000 , TimeUnit.MILLISECONDS);
+                redisTemplate.expire(KILL_PRODUCT_LIST, 300000, TimeUnit.MILLISECONDS);
                 return ayProducts;
             }
             ayProducts = productMap.values();
@@ -127,9 +125,9 @@ public class ProductServiceImpl implements ProductService {
         if (CollectionUtils.isEmpty(ayProducts)) {
             return Collections.EMPTY_MAP;
         }
-        Map<Integer , AyProduct> productMap = new HashMap<>(ayProducts.size());
+        Map<Integer, AyProduct> productMap = new HashMap<>(ayProducts.size());
         for (AyProduct product : ayProducts) {
-            productMap.put( product.getId(), product);
+            productMap.put(product.getId(), product);
         }
         return productMap;
     }
@@ -138,7 +136,8 @@ public class ProductServiceImpl implements ProductService {
     @Resource
     private AyproductKillProducer ayproductKillProducer;
     private static Destination destination = new ActiveMQQueue("ay.queue.asyn.save");
-//    private  static Destination destination=new ActiveMQQueue("queue.asyn.save");
+
+    //    private  static Destination destination=new ActiveMQQueue("queue.asyn.save");
     @Override
     public AyProduct killProduct(Integer productId, Integer userId) {
         AyProduct ayProduct = productRepository.findById(productId).get();
@@ -158,7 +157,7 @@ public class ProductServiceImpl implements ProductService {
         killProduct.setState(KillStatus.SUCCESS.getCode());
         //保存秒杀记录详细信息
 //        ayUserKillProductService.save(killProduct);
-        ayproductKillProducer.sendMessage(destination,killProduct);
+        ayproductKillProducer.sendMessage(destination, killProduct);
         //商品秒杀成功后，更新缓存中商品库存数量
         redisTemplate.opsForHash().put(KILL_PRODUCT_LIST, killProduct.getProductId(), ayProduct);
         return ayProduct;

@@ -3,12 +3,11 @@ package com.example.speedkill.model;
 import lombok.Data;
 
 import javax.persistence.*;
-
 import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name="ay_user_kill_product")
+@Table(name = "ay_user_kill_product")
 @Data
 public class AyUserKillProduct implements Serializable {
     @Id
