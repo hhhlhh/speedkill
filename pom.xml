@@ -140,7 +140,7 @@
                     <imageName>
                         ${docker.image.prefix}/${project.artifactId}
                     </imageName>
-                    <!-- 指定dockerfile文件所在目录 -->
+                    <!-- 指定dockerfile文件所在目录 2021-2-14-->
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
